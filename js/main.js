@@ -1,370 +1,423 @@
-/* ===================================================================
- * Transcend - Main JS
- *
- * ------------------------------------------------------------------- */
-
+/*------------------------------------
+ *Author:FortunaTheme
+ *Template:Avita
+ *Version:1.0
+ *-------------------------------------
+ */
 (function($) {
 
     "use strict";
-    
-    var cfg = {
-        scrollDuration : 800, // smoothscroll duration
-        mailChimpURL   : 'https://facebook.us8.list-manage.com/subscribe/post?u=cdb7b577e41181934ed6a6a44&amp;id=e6957d85dc'   // mailchimp url
-    },
 
-    $WIN = $(window);
-
-    // Add the User Agent to the <html>
-    // will be used for IE10 detection (Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0))
-    var doc = document.documentElement;
-    doc.setAttribute('data-useragent', navigator.userAgent);
+    jQuery(document).on("ready", function() {
 
 
-   /* Preloader
-    * -------------------------------------------------- */
-    var clPreloader = function() {
-        
-        $("html").addClass('cl-preload');
 
-        $WIN.on('load', function() {
+        /*
+         * -----------------------------------------------------------------
+         *---------------------------Preloader and Anchor Tag---------------
+         * -----------------------------------------------------------------
+         */
 
-            //force page scroll position to top at page refresh
-            // $('html, body').animate({ scrollTop: 0 }, 'normal');
+        var themeWindow = $(window);
+        var pagebody = $('html, body');
+        themeWindow.on("load", function() {
 
-            // will first fade out the loading animation 
-            $("#loader").fadeOut("slow", function() {
-                // will fade out the whole DIV that covers the website.
-                $("#preloader").delay(300).fadeOut("slow");
-            }); 
-            
-            // for hero content animations 
-            $("html").removeClass('cl-preload');
-            $("html").addClass('cl-loaded');
-        
+            var preloader = jQuery('.preloader');
+            var preloaderArea = jQuery('.preloader-area');
+            preloader.fadeOut();
+            preloaderArea.delay(200).fadeOut('slow');
+            themeWindow.scrollTop(0);
         });
-    };
 
-
-   /* Menu on Scrolldown
-    * ------------------------------------------------------ */
-    var clMenuOnScrolldown = function() {
-        
-        var menuTrigger = $('.header-menu-toggle');
-
-        $WIN.on('scroll', function() {
-
-            if ($WIN.scrollTop() > 150) {
-                menuTrigger.addClass('opaque');
-            }
-            else {
-                menuTrigger.removeClass('opaque');
-            }
-
-        });
-    };
-
-
-   /* OffCanvas Menu
-    * ------------------------------------------------------ */
-    var clOffCanvas = function() {
-
-        var menuTrigger     = $('.header-menu-toggle'),
-            nav             = $('.header-nav'),
-            closeButton     = nav.find('.header-nav__close'),
-            siteBody        = $('body'),
-            mainContents    = $('section, footer');
-
-        // open-close menu by clicking on the menu icon
-        menuTrigger.on('click', function(e){
+        var anchor = $('a[href="#"]');
+        anchor.on("click", function() {
             e.preventDefault();
-            siteBody.toggleClass('menu-is-open');
         });
 
-        // close menu by clicking the close button
-        closeButton.on('click', function(e){
-            e.preventDefault();
-            menuTrigger.trigger('click');
-        });
 
-        // close menu clicking outside the menu itself
-        siteBody.on('click', function(e){
-            if( !$(e.target).is('.header-nav, .header-nav__content, .header-menu-toggle, .header-menu-toggle span') ) {
-                siteBody.removeClass('menu-is-open');
-            }
-        });
-
-    };
+        /*
+         * -----------------------------------------------------------------
+         *-------------------single-page-nav-plugin------------------------
+         * -----------------------------------------------------------------
+         */
 
 
-   /* photoswipe
-    * ----------------------------------------------------- */
-    var clPhotoswipe = function() {
-        var items = [],
-            $pswp = $('.pswp')[0],
-            $folioItems = $('.item-folio');
 
-        // get items
-        $folioItems.each( function(i) {
+        // Prevent console.log from generating errors in IE for the purposes of the demo
+        if (!window.console) console = {
+            log: function() {}
+        };
 
-            var $folio = $(this),
-                $thumbLink =  $folio.find('.thumb-link'),
-                $title = $folio.find('.item-folio__title'),
-                $caption = $folio.find('.item-folio__caption'),
-                $titleText = '<h4>' + $.trim($title.html()) + '</h4>',
-                $captionText = $.trim($caption.html()),
-                $href = $thumbLink.attr('href'),
-                $size = $thumbLink.data('size').split('x'),
-                $width  = $size[0],
-                $height = $size[1];
-        
-            var item = {
-                src  : $href,
-                w    : $width,
-                h    : $height
-            }
+        // The actual plugin
+        if ($(".welcome-area").is("#welcome-area")) {
+            var singleNav = jQuery('.single-page-nav');
+            singleNav.singlePageNav({
+                offset: singleNav.outerHeight(),
+                filter: ':not(.external)',
+                updateHash: false
+            });
 
-            if ($caption.length > 0) {
-                item.title = $.trim($titleText + $captionText);
-            }
+            /*
+             * -----------------------------------------------------------------
+             *-------------------------Skill------------------------------------
+             * -----------------------------------------------------------------
+             */
 
-            items.push(item);
-        });
+            var skill = $('.skills');
 
-        // bind click event
-        $folioItems.each(function(i) {
+            var width1 = $(".prog1").data("progress");
+            var progBar1 = $(".prog1");
+            skill.waypoint(function() {
+                progBar1.css({
+                    "width": width1,
+                    "transition": "2s ease-in"
+                });
+            }, {
 
-            $(this).on('click', function(e) {
+                offset: width1
+            });
+
+
+            var width2 = $(".prog2").data("progress");
+            var progBar2 = $(".prog2");
+            skill.waypoint(function() {
+                progBar2.css({
+                    "width": width2,
+                    "transition": "2s ease-in"
+                });
+            }, {
+
+                offset: width2
+            });
+
+
+            var width3 = $(".prog3").data("progress");
+            var progBar3 = $(".prog3");
+            skill.waypoint(function() {
+                progBar3.css({
+                    "width": width3,
+                    "transition": "2s ease-in"
+                });
+            }, {
+
+                offset: width3
+            });
+
+
+            /*
+             * -----------------------------------------------------------------
+             *-------------------------button animation-------------------------
+             * -----------------------------------------------------------------
+             */
+
+
+
+            var serviceBtn = $(".service-btn");
+
+            serviceBtn.on("click", function() {
+                $('html, body').animate({
+                    scrollTop: ($("#portfolio").offset().top) - 60
+                }, 2000);
+            });
+            var hireBtn = $(".hire-btn");
+
+            hireBtn.on("click", function() {
+                $('html, body').animate({
+                    scrollTop: ($("#contact").offset().top) - 60
+                }, 2000);
+            });
+
+
+            /*
+             * -----------------------------------------------------------------
+             *------------------------Personal Details--------------------------
+             * -----------------------------------------------------------------
+             */
+
+            var personal = $('#personal-detail .nav .nav-item');
+
+            personal.on("click", function(e) {
                 e.preventDefault();
-                var options = {
-                    index: i,
-                    showHideOpacity: true
-                }
-
-                // initialize PhotoSwipe
-                var lightBox = new PhotoSwipe($pswp, PhotoSwipeUI_Default, items, options);
-                lightBox.init();
+                e.stopImmediatePropagation();
+                $(this).tab('show');
             });
 
-        });
-    };
+            /*
+             * -----------------------------------------------------------------
+             *--------------------Animation using animate.css-------------------
+             * -----------------------------------------------------------------
+             */
 
 
-   /* Stat Counter
-    * ------------------------------------------------------ */
-    var clStatCount = function() {
-        
-        var statSection = $(".s-stats"),
-            stats = $(".stats__count");
 
-        statSection.waypoint({
+            var animation1 = $('.animation');
 
-            handler: function(direction) {
+            animation1.waypoint(function() {
+                var thisElement = $(this.element);
+                var animation = thisElement.attr('data-animation');
 
-                if (direction === "down") {
-
-                    stats.each(function () {
-                        var $this = $(this);
-
-                        $({ Counter: 0 }).animate({ Counter: $this.text() }, {
-                            duration: 4000,
-                            easing: 'swing',
-                            step: function (curValue) {
-                                $this.text(Math.ceil(curValue));
-                            }
-                        });
-                    });
-
-                } 
-
-                // trigger once only
-                this.destroy();
-
-            },
-
-            offset: "90%"
-
-        });
-    };
-
-
-   /* Masonry
-    * ---------------------------------------------------- */ 
-    var clMasonryFolio = function () {
-        
-        var containerBricks = $('.masonry');
-
-        containerBricks.imagesLoaded(function () {
-            containerBricks.masonry({
-                itemSelector: '.masonry__brick',
-                resize: true
+                thisElement.css('opacity', '1');
+                thisElement.addClass("animated " + animation).delay(2000);
+            }, {
+                offset: '75%',
             });
-        });
-
-        // layout Masonry after each image loads
-        containerBricks.imagesLoaded().progress( function() {
-            containerBricks.masonry('layout');
-        });
-    };
 
 
-    /* slick slider
-     * ------------------------------------------------------ */
-    var clSlickSlider = function() {
-        
-        $('.testimonials__slider').slick({
-            arrows: false,
-            dots: true,
-            infinite: true,
-            slidesToShow: 2,
-            slidesToScroll: 1,
-            pauseOnFocus: false,
-            autoplaySpeed: 1500,
-            responsive: [
-                {
-                    breakpoint: 900,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
+            /*
+             * -----------------------------------------------------------------
+             *------------------------------slicknav----------------------------
+             * -----------------------------------------------------------------
+             */
+
+
+            var menu = $("#menu");
+
+            menu.slicknav({
+                label: '',
+            });
+
+            /*
+             * -----------------------------------------------------------------
+             *-------------------------------Mixit Up---------------------------
+             * -----------------------------------------------------------------
+             */
+
+
+
+            var portfolioContent = $('.portfolio-content');
+
+            portfolioContent.mixItUp();
+
+
+
+            /*
+             * -----------------------------------------------------------------
+             *-----------------------------lightbox-----------------------------
+             * -----------------------------------------------------------------
+             */
+
+
+
+            lightbox.option({
+                'resizeDuration': 200,
+                'wrapAround': true,
+                showImageNumberLabel: false,
+            });
+
+
+            /*
+             * -----------------------------------------------------------------
+             *-----------------------------Ajax Chimp---------------------------
+             * -----------------------------------------------------------------
+             */
+
+
+            var chimpForm = $('#mc-form');
+
+            chimpForm.ajaxChimp({
+                url: 'https://tahsinscreation.us17.list-manage.com/subscribe/post?u=8d43c37bb4dbc0d0b8078d874&amp;id=c638bf1e04'
+            });
+
+
+
+
+            /*
+             * -----------------------------------------------------------------
+             *----------------------Contact form ajax---------------------------
+             * -----------------------------------------------------------------
+             */
+
+
+
+            var contactSubmit = $('#contact-submit');
+
+            contactSubmit.on('click', function(e) {
+                e.preventDefault();
+                var name = $('#form-name').val();
+                var email = $('#form-email').val();
+                var subject = $('#form-subject').val();
+                var message = $('#form-message').val();
+                var form = new Array({
+                    'name': name,
+                    'email': email,
+                    'subject': subject,
+                    'message': message
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: "contact.php",
+                    data: ({
+                        'action': 'contact',
+                        'form': form
+                    })
+                }).done(function(data) {
+
+                    var conResult = $('#contact .result');
+                    conResult.html(data);
+                    $(".contact-form-area")[0].reset();
+
+                });
+
+            });
+
+
+            /*
+             * -----------------------------------------------------------------
+             *--------------------Owl Carousel For Testimonial------------------
+             * -----------------------------------------------------------------
+             */
+
+
+
+            var testimonial = $("#client-testimonial #owl-demo-testimonial");
+
+            testimonial.owlCarousel({
+                autoplay: true,
+                autoplayTimeout: 5000,
+                items: 2,
+                autoPlay: 6000,
+                responsive: {
+                    // breakpoint from 0 up
+                    0: {
+                        items: 1
+                    },
+                    // breakpoint from 480 up
+                    600: {
+                        items: 1
+                    },
+                    // breakpoint from 768 up
+                    900: {
+                        items: 1
+                    },
+                    1000: {
+                        items: 3
                     }
-                }
-            ]
-        });
-    };
-
-
-   /* Smooth Scrolling
-    * ------------------------------------------------------ */
-    var clSmoothScroll = function() {
-        
-        $('.smoothscroll').on('click', function (e) {
-            var target = this.hash,
-            $target    = $(target);
-            
-                e.preventDefault();
-                e.stopPropagation();
-
-            $('html, body').stop().animate({
-                'scrollTop': $target.offset().top
-            }, cfg.scrollDuration, 'swing').promise().done(function () {
-
-                // check if menu is open
-                if ($('body').hasClass('menu-is-open')) {
-                    $('.header-menu-toggle').trigger('click');
-                }
-
-                window.location.hash = target;
+                },
+                pauseOnHover: true,
+                nav: true,
+                dots: false,
+                navText: ["<i class='fas fa-arrow-left'></i>", "<i class='fas fa-arrow-right'></i>"]
             });
-        });
 
-    };
+            /*
+             * -----------------------------------------------------------------
+             *-------------------------------CounterUp---------------------------
+             * -----------------------------------------------------------------
+             */
 
+            var count = $('.counter');
+            count.counterUp({
+                delay: 20,
+                time: 40,
+            });
 
-   /* Placeholder Plugin Settings
-    * ------------------------------------------------------ */
-    var clPlaceholder = function() {
-        $('input, textarea, select').placeholder();  
-    };
-
-
-   /* Alert Boxes
-    * ------------------------------------------------------ */
-    var clAlertBoxes = function() {
-
-        $('.alert-box').on('click', '.alert-box__close', function() {
-            $(this).parent().fadeOut(500);
-        }); 
-
-    };
+            /*
+             * -----------------------------------------------------------------
+             *-------------------------------Service Item-----------------------
+             * -----------------------------------------------------------------
+             */
 
 
-   /* Animate On Scroll
-    * ------------------------------------------------------ */
-    var clAOS = function() {
-        
-        AOS.init( {
-            offset: 200,
-            duration: 600,
-            easing: 'ease-in-sine',
-            delay: 300,
-            once: true,
-            disable: 'mobile'
-        });
+            var serviceItem = $("#service #owl-demo-service");
 
-    };
-
-
-   /* AjaxChimp
-    * ------------------------------------------------------ */
-    var clAjaxChimp = function() {
-        
-        $('#mc-form').ajaxChimp({
-            language: 'es',
-            url: cfg.mailChimpURL
-        });
-
-        // Mailchimp translation
-        //
-        //  Defaults:
-        //	 'submit': 'Submitting...',
-        //  0: 'We have sent you a confirmation email',
-        //  1: 'Please enter a value',
-        //  2: 'An email address must contain a single @',
-        //  3: 'The domain portion of the email address is invalid (the portion after the @: )',
-        //  4: 'The username portion of the email address is invalid (the portion before the @: )',
-        //  5: 'This email address looks fake or invalid. Please enter a real email address'
-
-        $.ajaxChimp.translations.es = {
-            'submit': 'Submitting...',
-            0: '<i class="fas fa-check"></i> We have sent you a confirmation email',
-            1: '<i class="fas fa-exclamation-circle"></i> You must enter a valid e-mail address.',
-            2: '<i class="fas fa-exclamation-circle"></i> E-mail address is not valid.',
-            3: '<i class="fas fa-exclamation-circle"></i> E-mail address is not valid.',
-            4: '<i class="fas fa-exclamation-circle"></i> E-mail address is not valid.',
-            5: '<i class="fas fa-exclamation-circle"></i> E-mail address is not valid.'
-        } 
-
-    };
+            serviceItem.owlCarousel({
+                autoplay: true,
+                autoplayTimeout: 5000,
+                items: 3,
+                autoPlay: 6000,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    // breakpoint from 480 up
+                    500: {
+                        items: 2
+                    },
+                    768: {
+                        items: 1
+                    },
+                    992: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 2
+                    }
+                },
+                pauseOnHover: true,
+                nav: true,
+                dots: false,
+                navText: ["<i class='fas fa-arrow-left'></i>", "<i class='fas fa-arrow-right'></i>"]
+            });
 
 
-   /* Back to Top
-    * ------------------------------------------------------ */
-    var clBackToTop = function() {
-        
-        var pxShow  = 500,         // height on which the button will show
-        fadeInTime  = 400,         // how slow/fast you want the button to show
-        fadeOutTime = 400,         // how slow/fast you want the button to hide
-        scrollSpeed = 300,         // how slow/fast you want the button to scroll to top. can be a value, 'slow', 'normal' or 'fast'
-        goTopButton = $(".cl-go-top")
-        
-        // Show or hide the sticky footer button
-        $(window).on('scroll', function() {
-            if ($(window).scrollTop() >= pxShow) {
-                goTopButton.fadeIn(fadeInTime);
-            } else {
-                goTopButton.fadeOut(fadeOutTime);
+
+
+            /*
+             * -----------------------------------------------------------------
+             *-----------------------------Typed Js-----------------------------
+             * -----------------------------------------------------------------
+             */
+
+            if ($(".welcome-area").is(".animated-text")) {
+                var typed = new Typed("#typed", {
+                    stringsElement: '#typed-strings',
+                    typeSpeed: 60,
+                    backSpeed: 30,
+                    backDelay: 2000,
+                    startDelay: 1000,
+                    loop: true
+
+                });
             }
+
+        }
+        /*
+         * -----------------------------------------------------------------
+         *-----------------------Scroll Top Events--------------------------
+         * -----------------------------------------------------------------
+         */
+
+
+
+        var scrollTopBtn = $("#scroll-top-area");
+
+        scrollTopBtn.on("click", function() {
+            pagebody.animate({
+                scrollTop: 0
+            }, 2000);
         });
-    };
 
+        themeWindow.on("scroll", function() {
+            var top = themeWindow.scrollTop();
+            var header = $("header");
+            var headerText = $("header nav ul li a");
+            var logo = $(".logo img");
+            var scrollTopArea = $("#scroll-top-area");
+            var darkLogo = logo.data("dark");
+            if (top < 150) {
+                scrollTopArea.css('display', 'none');
+                logo.attr("src", "images/logoWhite.png");
+                headerText.css('color', '#fff');
+                header.css({
+                    'background': 'transparent',
+                    'box-shadow': 'none',
+                    'height': '100px',
+                    'line-height': '100px'
+                });
+            } else if (top >= 150) {
+                scrollTopArea.css('display', 'block');
+                logo.attr("src", darkLogo);
+                headerText.css('color', '#454545');
+                header.css({
+                    'background': '#fff',
+                    'box-shadow': '0px 1px 6px #484848',
+                    'height': '80px',
+                    'line-height': '80px'
+                });
+            }
 
-   /* Initialize
-    * ------------------------------------------------------ */
-    (function clInit() {
-        
-        clPreloader();
-        clMenuOnScrolldown();
-        clOffCanvas();
-        clPhotoswipe();
-        clStatCount();
-        clMasonryFolio();
-        clSlickSlider();
-        clSmoothScroll();
-        clPlaceholder();
-        clAlertBoxes();
-        clAOS();
-        clAjaxChimp();
-        clBackToTop();
+        });
 
-    })();
-        
+    });
+
 })(jQuery);
